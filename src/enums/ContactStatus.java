@@ -4,7 +4,9 @@ public enum ContactStatus {
     ALIVE("Alive"),
     JAIL("Jail"),
     DEAD("Dead"),
-    INCAPACITATED("Incapacitated");
+    INCAPACITATED("Incapacitated"),
+    SEWERS("Sewers"), // dev has some weird data for penguin that flips status and location, bandaid fix
+    UNKNOWN("Unknown");
 
     private String status;
 
@@ -12,7 +14,8 @@ public enum ContactStatus {
         this.status = status;
     }
 
-    public String getStatus() {
-        return status;
+    @Override
+    public String toString() {
+        return this.status;
     }
 }

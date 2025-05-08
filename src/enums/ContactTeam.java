@@ -10,7 +10,8 @@ public enum ContactTeam {
         this.team = team;
     }
 
-    public String getTeam() {
-        return team;
+    @Override
+    public String toString() {
+        return this.team;
     }
 }

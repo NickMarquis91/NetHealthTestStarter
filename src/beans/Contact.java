@@ -1,15 +1,38 @@
 package beans;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import enums.ContactLocation;
 import enums.ContactStatus;
 import enums.ContactTeam;
 
+import java.util.HashMap;
+
+// The response has some metadata we don't care about, so just ignore it
+@JsonIgnoreProperties({"etag","partitionKey","rowKey","timestamp"})
 public class Contact {
 
-    String firstName;
-    String lastName;
-    String title;
-    String age;
+    private String firstName;
+    private String lastName;
+    private String title;
+    private String age;
+    private ContactTeam team;
+    private ContactLocation location;
+    private ContactStatus status;
+    private HashMap<String,Object> extraProperties = new HashMap<>(); // use this to serialize/deserialize any extra properties like powers, abilites, birthday etc
+
+    public Contact() {
+    }
+
+    /**
+     * Create a Contact using just the title (used for fetching)
+     * @param title
+     */
+    public Contact(String title) {
+        this.title = title;
+    }
+
 
     public ContactStatus getStatus() {
         return status;
@@ -67,12 +90,50 @@ public class Contact {
         this.firstName = firstName;
     }
 
-    ContactTeam team;
-    ContactLocation location;
-    ContactStatus status;
-
-    public Contact () {
+    @JsonAnyGetter
+    public HashMap<String, Object> getExtraProperties() {
+        return extraProperties;
     }
 
+    public void setExtraProperties(HashMap<String, Object> extraProperties) {
+        this.extraProperties = extraProperties;
+    }
 
+    @JsonAnySetter
+    public void addProperties(String property, Object value) {
+        this.extraProperties.put(property, value);
+    }
+
+    /**
+     * Treat title as identifier for equality
+     * @param other
+     * @return
+     */
+    @Override
+    public boolean equals(Object other) {
+
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Contact)) {
+            return false;
+        }
+
+        return this.title.equals(((Contact) other).getTitle());
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", title='" + title + '\'' +
+                ", age='" + age + '\'' +
+                ", team=" + team +
+                ", location=" + location +
+                ", status=" + status +
+                ", extraProperties=" + extraProperties +
+                '}';
+    }
 }

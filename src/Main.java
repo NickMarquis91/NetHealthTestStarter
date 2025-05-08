@@ -3,6 +3,7 @@ import beans.Contact;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import util.AuthClient;
+import util.ContactClient;
 import util.Properties;
 
 import javax.ws.rs.client.Client;
@@ -25,6 +26,8 @@ public class Main {
        String authToken = authClient.getAuthToken();
 
         // Pass authToken to contactClient and proceed :)
+        ContactClient contactClient = new ContactClient(authToken);
+        contactClient.runAllTests();
     }
 
 }

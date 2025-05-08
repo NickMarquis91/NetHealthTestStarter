@@ -7,7 +7,9 @@ public enum ContactLocation {
     BANK("Bank"),
     DOWNTOWN_GOTHAM("Downtown Gotham"),
     SEWERS("Sewers"),
-    HEADQUARTERS("Headquarters");
+    HEADQUARTERS("Headquarters"),
+    DEAD("Dead"), // dev has some weird data for penguin that flips status and location, bandaid fix
+    UNKNOWN("Unknown");
 
     private String location;
 
@@ -15,7 +17,8 @@ public enum ContactLocation {
         this.location = location;
     }
 
-    public String getLocation() {
-        return location;
+    @Override
+    public String toString() {
+        return this.location;
     }
 }
