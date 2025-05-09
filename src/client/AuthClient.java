@@ -1,9 +1,10 @@
-package util;
+package client;
 
 import beans.AuthRequestor;
 import beans.AuthResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import util.Properties;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -31,7 +32,7 @@ public class AuthClient {
         Client client = ClientBuilder.newBuilder().newClient(); // from https://cxf.apache.org/docs/jax-rs-client-api.html
         String authToken;
         try {
-            WebTarget target = client.target(url+"/auth"); // make sure to change if copying for contactClient
+            WebTarget target = client.target(url+"/auth"); // you could also use URLBuilder here
             Response response = target.request(MediaType.APPLICATION_JSON)
                     .header("Subscription", subscription)
                     .post(Entity.entity(objectMapper.writeValueAsString(new AuthRequestor(authenticationString, requestor)),MediaType.APPLICATION_JSON));

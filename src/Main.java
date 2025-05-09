@@ -1,18 +1,5 @@
-import beans.AuthRequestor;
-import beans.Contact;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import util.AuthClient;
-import util.ContactClient;
-import util.Properties;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.Base64;
+import client.AuthClient;
+import client.ContactClient;
 
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or

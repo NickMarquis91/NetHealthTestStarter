@@ -1,4 +1,4 @@
-package util;
+package client;
 
 import beans.Contact;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -10,6 +10,7 @@ import enums.ContactStatus;
 import enums.ContactTeam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import util.Properties;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -25,8 +26,8 @@ import java.util.*;
 
 public class ContactClient {
 
-    private final String url = Properties.getUrl();
-    private final String requestor = Properties.getRequestor();
+    private final String url = util.Properties.getUrl();
+    private final String requestor = util.Properties.getRequestor();
     private final String subscription = Properties.getSubscription();
     private String authToken;
 
@@ -34,8 +35,14 @@ public class ContactClient {
         this.authToken = authToken;
     }
 
+    /**
+     * Execute any tests in sequence, make sure their test case name is defined within method
+     */
     public void runAllTests() {
-        //testConnect();
+        testConnect();
+        testHeist();
+        testPowers();
+        testBirthdays();
         testSorting();
     }
 
@@ -62,6 +69,7 @@ public class ContactClient {
         Contact scarecrow = getContactByTitle("powers","Scarecrow");
         scarecrow.getExtraProperties().put("powers", List.of("Toxic Immunity")); // Scarecrow gets the powers property, with one element
         scarecrow.getExtraProperties().put("abilities", List.of("Pedagogy")); // Scarecrow also gets the abilities property, with one element
+        contacts.add(scarecrow);
         System.out.println(postContacts(testCase, contacts));
     }
 
@@ -139,7 +147,7 @@ public class ContactClient {
     private Contact getContactByTitle(String testCase, String title){
         Map<String,String> params = new HashMap<String,String>();
         params.put("title",title);
-        return getContacts(testCase, params).get(new Contact(title));
+        return getContacts(testCase, params).get(new Contact(title)); // fetch using the title as the key
     }
 
     /**

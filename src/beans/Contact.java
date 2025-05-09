@@ -8,6 +8,7 @@ import enums.ContactStatus;
 import enums.ContactTeam;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 // The response has some metadata we don't care about, so just ignore it
 @JsonIgnoreProperties({"etag","partitionKey","rowKey","timestamp"})
@@ -20,7 +21,7 @@ public class Contact {
     private ContactTeam team;
     private ContactLocation location;
     private ContactStatus status;
-    private HashMap<String,Object> extraProperties = new HashMap<>(); // use this to serialize/deserialize any extra properties like powers, abilites, birthday etc
+    private HashMap<String,Object> extraProperties = new HashMap<>(); // use this to serialize/deserialize any extra properties like powers, abilities, birthday etc
 
     public Contact() {
     }
@@ -90,13 +91,10 @@ public class Contact {
         this.firstName = firstName;
     }
 
+    // Jackson will automatically map unknown properties not defined in @JsonIgnoreProperties to this, and reserialize them appropriately
     @JsonAnyGetter
     public HashMap<String, Object> getExtraProperties() {
         return extraProperties;
-    }
-
-    public void setExtraProperties(HashMap<String, Object> extraProperties) {
-        this.extraProperties = extraProperties;
     }
 
     @JsonAnySetter
@@ -121,6 +119,11 @@ public class Contact {
         }
 
         return this.title.equals(((Contact) other).getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(title);
     }
 
     @Override
